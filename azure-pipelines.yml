@@ -70,7 +70,8 @@ stages:
   displayName: 'Deploy the web application'
   dependsOn: Build
   jobs:
-  - deployment: Deploy
+  - deployment: Deploy 
+    displayName: 'Deploy to DEV'
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Dev
@@ -88,8 +89,9 @@ stages:
               azureSubscription: 'sp1-devops-ase'
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-    jobs:
+
   - deployment: Deploy
+    displayName: 'Deploy to DEV'
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Sit
