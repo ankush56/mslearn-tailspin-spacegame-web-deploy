@@ -66,11 +66,11 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Deploy'
-  displayName: 'Deploy the web application'
+- stage: 'DEV Deploy'
+  displayName: 'Deploy the web application to DEV environment'
   dependsOn: Build
   jobs:
-  - deployment: 'DeployDEV'
+  - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Dev
@@ -89,7 +89,11 @@ stages:
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
-  - deployment: 'DeploySIT'
+- stage: 'SIT Deploy'
+  displayName: 'Deploy the web application to SIT environment'
+  dependsOn: DEV Deploy
+  jobs:
+  - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Sit
@@ -102,10 +106,10 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service SIT Deploy: website'
+            displayName: 'Azure App Service Deploy: website'
             inputs:
               azureSubscription: 'sp1-devops-ase'
               appName: '$(SITWebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'    
 
     #test2
