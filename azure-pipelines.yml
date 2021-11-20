@@ -70,8 +70,7 @@ stages:
   displayName: 'Deploy the web application'
   dependsOn: Build
   jobs:
-  - deployment: Deploy 
-    displayName: 'Deploy to DEV'
+  - deployment: 'Deploy to DEV'
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Dev
@@ -90,8 +89,7 @@ stages:
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
-  - deployment: Deploy
-    displayName: 'Deploy to DEV'
+  - deployment: 'Deploy to SIT'
     pool:
       vmImage: 'ubuntu-20.04'
     environment: Sit
