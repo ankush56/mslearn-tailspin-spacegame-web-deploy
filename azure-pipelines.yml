@@ -88,5 +88,24 @@ stages:
               azureSubscription: 'sp1-devops-ase'
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+    jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-20.04'
+    environment: Sit
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service SIT Deploy: website'
+            inputs:
+              azureSubscription: 'sp1-devops-ase'
+              appName: '$(SITWebAppName)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
     #test2
