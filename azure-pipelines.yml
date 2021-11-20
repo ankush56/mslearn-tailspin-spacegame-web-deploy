@@ -66,8 +66,8 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'DEV Deploy'
-  displayName: 'Deploy the web application to DEV environment'
+- stage: 'DEVDeploy'
+  displayName: 'DEV environment Deploy'
   dependsOn: Build
   jobs:
   - deployment: Deploy
@@ -89,9 +89,9 @@ stages:
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
-- stage: 'SIT Deploy'
-  displayName: 'Deploy the web application to SIT environment'
-  dependsOn: DEV Deploy
+- stage: 'SITDeploy'
+  displayName: 'SIT environment Deploy'
+  dependsOn: DEVDeploy
   jobs:
   - deployment: Deploy
     pool:
