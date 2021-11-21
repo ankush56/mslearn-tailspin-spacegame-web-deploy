@@ -29,7 +29,7 @@ stages:
         RunAsPreJob: false
     - task: CmdLine@2
       inputs:
-        script: 'echo $(secret1) > secret.txt'
+        script: 'echo This is -->  $(secret1)'
 
     - task: UseDotNet@2
       displayName: 'Use .NET SDK $(dotnetSdkVersion)'
