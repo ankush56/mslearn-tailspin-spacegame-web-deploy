@@ -114,7 +114,4 @@ stages:
               slotName: 'Tempslot'
               appName: '$(WebAppNameStaging)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-              appName: '$(SITWebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'    
-
     #test2
