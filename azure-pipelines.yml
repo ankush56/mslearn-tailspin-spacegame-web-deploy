@@ -86,32 +86,8 @@ stages:
             displayName: 'Azure App Service Deploy: website'
             inputs:
               azureSubscription: 'sp1-devops-ase'
-              appName: '$(WebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-
-- stage: 'SITDeploy'
-  displayName: 'SIT environment Deploy'
-  dependsOn: DEVDeploy
-  jobs:
-  - deployment: Deploy
-    pool:
-      vmImage: 'ubuntu-20.04'
-    environment: Sit
-    variables:
-    - group: Release
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'sp1-devops-ase'
               deployToSlotOrASE: 'true'
               resourceGroupName: 'tailspin-space-game-rg'
               slotName: 'Tempslot'
-              appName: '$(WebAppNameStaging)'
+              appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-    #test2
