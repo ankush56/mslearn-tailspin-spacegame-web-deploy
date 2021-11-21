@@ -109,6 +109,11 @@ stages:
             displayName: 'Azure App Service Deploy: website'
             inputs:
               azureSubscription: 'sp1-devops-ase'
+              deployToSlotOrASE: 'true'
+              resourceGroupName: 'tailspin-space-game-rg'
+              slotName: 'Tempslot'
+              appName: '$(WebAppNameStaging)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
               appName: '$(SITWebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'    
 
