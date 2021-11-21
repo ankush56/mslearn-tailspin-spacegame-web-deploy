@@ -21,6 +21,16 @@ stages:
       dotnetSdkVersion: '5.x'
 
     steps:
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: 'sp1-devops-ase'
+        KeyVaultName: 'vaulty'
+        SecretsFilter: '*'
+        RunAsPreJob: false
+    - task: CmdLine@2
+      inputs:
+        script: 'echo $(secret1) > secret.txt'
+
     - task: UseDotNet@2
       displayName: 'Use .NET SDK $(dotnetSdkVersion)'
       inputs:
