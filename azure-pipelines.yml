@@ -66,38 +66,38 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'DEVDeploy'
-  displayName: 'DEV environment Deploy'
-  dependsOn: Build
-  jobs:
-  - deployment: Deploy
-    pool:
-      vmImage: 'ubuntu-20.04'
-    environment: Dev
-    variables:
-    - group: Release
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'sp1-devops-ase'
-              deployToSlotOrASE: 'true'
-              resourceGroupName: 'tailspin-space-game-rg'
-              slotName: 'Tempslot'
-              appName: '$(WebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-          - task: AzureAppServiceManage@0
-            displayName: 'Swap deployment slots'
-            inputs:
-              azureSubscription: 'sp1-devops-ase'
-              resourceGroupName: 'tailspin-space-game-rg'
-              webAppName: '$(WebAppName)'
-              sourceSlot: 'Tempslot'
-              targetSlot: 'production'
-              action: 'Swap Slots'
+# - stage: 'DEVDeploy'
+#   displayName: 'DEV environment Deploy'
+#   dependsOn: Build
+#   jobs:
+#   - deployment: Deploy
+#     pool:
+#       vmImage: 'ubuntu-20.04'
+#     environment: Dev
+#     variables:
+#     - group: Release
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             artifact: drop
+#           - task: AzureWebApp@1
+#             displayName: 'Azure App Service Deploy: website'
+#             inputs:
+#               azureSubscription: 'sp1-devops-ase'
+#               deployToSlotOrASE: 'true'
+#               resourceGroupName: 'tailspin-space-game-rg'
+#               slotName: 'Tempslot'
+#               appName: '$(WebAppName)'
+#               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+#           - task: AzureAppServiceManage@0
+#             displayName: 'Swap deployment slots'
+#             inputs:
+#               azureSubscription: 'sp1-devops-ase'
+#               resourceGroupName: 'tailspin-space-game-rg'
+#               webAppName: '$(WebAppName)'
+#               sourceSlot: 'Tempslot'
+#               targetSlot: 'production'
+#               action: 'Swap Slots'
               #test
